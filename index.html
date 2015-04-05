@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Touch Events Testing</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<style>
+		body {
+			margin: 10px 20px;
+			padding: 0;
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 14px;
+			line-height: 1.5;
+		}
+		#info {
+			margin-bottom: 10px;
+			min-height: 3em;
+		}
+		#test {
+			height: 200px;
+			background: #EEE;
+		}
+		#test.swipefail {
+			background: red;
+		}
+		#test.quickswipe {
+			background: yellow;
+		}
+		#test.longswipe {
+			background: blue;
+		}
+	</style>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="jquery.touchevents.js"></script>
+	<script>
+		$(document).ready(function(){
+			
+			// Prepare markup
+			var Info = $('#info');
+			var Test = $('#test');
+			var data = Test.addTouchEvents().data( 'touchdata' );
+			var variables = {};
+			var showVariables = [
+				/*
+				'startX',
+				'startY',
+				'startTime',
+				'areaWidth',
+				'areaHeight',
+				'areaLeft',
+				'areaTop',
+				*/
+				'movedX',
+				'movedY',
+				'movedRelX',
+				'movedRelY',
+				'relPositionX',
+				'relPositionY',
+				'directionX',
+				'directionY',
+				'initDir',
+			];
+			$.each( showVariables, function( i, variable ){
+				var div = $('<div>',{ text:variable+': ' });
+				var span = $('<span>');
+				div.appendTo( Info ).append( span );
+				variables[ variable ] = span;
+			});
+			
+			// Begin testing
+			Test
+			.on( 'touchmove', function(){
+				$.each( showVariables, function( i, variable ){
+					variables[ variable ].text( data[ variable ] );
+				});
+			})
+			.on( 'quickswipe longswipe swipefail touchstart', function( e ){
+				Test.removeClass( 'swipefail quickswipe longswipe' ).addClass( e.type );
+			})
+			.on( 'swipe swipefail', function( e ){
+				Test.text( e.type );
+			});
+			
+		});
+	</script>
+</head>
+<body>
+
+<div id="info"></div>
+<div id="test"></div>
+
+</body>
+</html>
