@@ -1,5 +1,5 @@
 /*
- * touchevents v0.1
+ * touchevents v0.2
  * http://github.com/romanmz/touchevents
  * By Roman Martinez - http://romanmz.com
  */
@@ -88,6 +88,20 @@
 				if( quickSwipe ) {
 					$this.trigger( 'quickswipe' );
 					$this.trigger( 'swipe' );
+					
+					if( data.initDir == 'x' && testLength > 0 ) {
+						$this.trigger( 'quickswiperight' );
+						$this.trigger( 'swiperight' );
+					} else if( data.initDir == 'x' ) {
+						$this.trigger( 'quickswipeleft' );
+						$this.trigger( 'swipeleft' );
+					} else if( testLength > 0 ) {
+						$this.trigger( 'quickswipeup' );
+						$this.trigger( 'swipeup' );
+					} else {
+						$this.trigger( 'quickswipedown' );
+						$this.trigger( 'swipedown' );
+					}
 				}
 				
 				// Detect long swipes
@@ -97,6 +111,20 @@
 					if( longSwipe ) {
 						$this.trigger( 'longswipe' );
 						$this.trigger( 'swipe' );
+						
+						if( data.initDir == 'x' && testRel > 0 ) {
+							$this.trigger( 'longswiperight' );
+							$this.trigger( 'swiperight' );
+						} else if( data.initDir == 'x' ) {
+							$this.trigger( 'longswipeleft' );
+							$this.trigger( 'swipeleft' );
+						} else if( testRel > 0 ) {
+							$this.trigger( 'longswipeup' );
+							$this.trigger( 'swipeup' );
+						} else {
+							$this.trigger( 'longswipedown' );
+							$this.trigger( 'swipedown' );
+						}
 					}
 					
 					// Detect failed swiping
